@@ -18,6 +18,4 @@ Sprite *Background::GetBackground() {
 }
 
 void Background::RunAction() {
-	Director::getInstance()->getVisibleSize();
-	auto moveTo = MoveTo::(Vec2(this->mBackground->getContentSize().width))
 }
