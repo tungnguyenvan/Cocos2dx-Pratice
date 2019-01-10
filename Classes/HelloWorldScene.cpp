@@ -27,6 +27,7 @@
 #include <vector>
 #include <string>
 #include "GamePlay.h"
+#include "Background.h"
 
 USING_NS_CC;
 using namespace std;
@@ -55,11 +56,10 @@ bool HelloWorld::init()
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-    // create backgroud
-	auto backgroud = Sprite::create("gaERSZ.png");
-	backgroud->setAnchorPoint(Vec2(0, 0));
-	addChild(backgroud);
+	
+	// create backgroud
+	Background *background = new Background();
+	addChild(background->GetBackground());
 
 	//create animation sprite
 	GamePlay *gamePlay = new GamePlay();
