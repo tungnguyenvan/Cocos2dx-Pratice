@@ -27,8 +27,14 @@
 
 #include "cocos2d.h"
 
+using namespace cocos2d;
+
 class HelloWorld : public cocos2d::Scene
 {
+private:
+    TMXTiledMap *mTileMap;
+    TMXLayer *mBackground;
+    Sprite *mPlayer;
 public:
     static cocos2d::Scene* createScene();
 

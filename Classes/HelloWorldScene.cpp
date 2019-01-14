@@ -52,6 +52,29 @@ bool HelloWorld::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+
+    /******************** create Map ************************************/
+    mTileMap = new TMXTiledMap();
+    mTileMap->initWithTMXFile("untitled.tmx");
+    mBackground = mTileMap->getLayer("Tile Layer 1");
+    this->addChild(mTileMap);
+
+    /******************** create sprite ************************************/
+    auto objectGroup = mTileMap->getObjectGroup("object");
+    if (objectGroup == nullptr){
+        CCLOG("tile map has no objects object layer");
+        return false;
+    }
+    auto spawnpoint = objectGroup->getObject("point");
+    int x = spawnpoint.at("x").asInt();
+    int y = spawnpoint.at("y").asInt();
+    CCLOG("%d\t%d", x, y);
+    mPlayer = Sprite::create("luf (1).png");
+    mPlayer->setPosition(Vec2(x, y));
+    this->addChild(mPlayer);
+    auto follow = Follow::create(mPlayer, Rect::ZERO);
+    this->runAction(follow);
+
     /******************** Particle created ************************************/
     auto particleSystem = ParticleSystemQuad::create("particle_texture.plist");
     particleSystem->setScale(0.3);
