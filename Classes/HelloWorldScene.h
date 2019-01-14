@@ -35,12 +35,62 @@ private:
     TMXTiledMap *mTileMap;
     TMXLayer *mBackground;
     Sprite *mPlayer;
+    EventListenerTouchOneByOne *mEventListener;
 public:
     static cocos2d::Scene* createScene();
 
+    /**
+     * Event Moved
+     * @param touch
+     * @param event
+     */
+    void onTouchMovedEvent(Touch *touch, Event *event);
+
+    /**
+     * Event touch
+     * @param touch
+     * @param event
+     * @return
+     */
+    bool onTouchBeganEvent(Touch *touch, Event *event);
+
+    /**
+     * init view on Scene
+     * @return
+     */
     virtual bool init();
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+
+    /**
+     * Create map on scene
+     */
+    void createMap();
+
+    /**
+     * Create sprite and add to scene in spawnPoint
+     */
+    void createSprite();
+
+    /**
+     * create Particle custom
+     */
+    void createParticle();
+
+    /**
+     * Particle in system cocos2d
+     */
+    void createParticleDefault();
+
+    /**
+     * Create event touch, moved
+     */
+    void createEventListener();
+
+    /**
+     * set Sprite on spawnPoint
+     */
+    void setViewPointCenter(Vec2);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

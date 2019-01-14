@@ -54,16 +54,35 @@ bool HelloWorld::init()
 
 
     /******************** create Map ************************************/
+    HelloWorld::createMap();
+
+    /******************** create sprite ************************************/
+    HelloWorld::createSprite();
+
+    /******************** Particle created ************************************/
+    HelloWorld::createParticle();
+
+    /******************** Particle default ************************************/
+    HelloWorld::createParticleDefault();
+
+    /******************** Create Event ************************************/
+    HelloWorld::createEventListener();
+
+    return true;
+}
+
+void HelloWorld::createMap() {
     mTileMap = new TMXTiledMap();
     mTileMap->initWithTMXFile("untitled.tmx");
     mBackground = mTileMap->getLayer("Tile Layer 1");
     this->addChild(mTileMap);
+}
 
-    /******************** create sprite ************************************/
+void HelloWorld::createSprite() {
     auto objectGroup = mTileMap->getObjectGroup("object");
     if (objectGroup == nullptr){
         CCLOG("tile map has no objects object layer");
-        return false;
+        return;
     }
     auto spawnpoint = objectGroup->getObject("point");
     int x = spawnpoint.at("x").asInt();
@@ -72,18 +91,51 @@ bool HelloWorld::init()
     mPlayer = Sprite::create("luf (1).png");
     mPlayer->setPosition(Vec2(x, y));
     this->addChild(mPlayer);
-    auto follow = Follow::create(mPlayer, Rect::ZERO);
-    this->runAction(follow);
+    /* Create follow sprite */
+    //auto follow = Follow::create(mPlayer);
+    //this->runAction(follow);
+    this->setViewPointCenter(mPlayer->getPosition());
+}
 
-    /******************** Particle created ************************************/
+void HelloWorld::createParticle() {
     auto particleSystem = ParticleSystemQuad::create("particle_texture.plist");
     particleSystem->setScale(0.3);
     particleSystem->setPosition(Vec2(150, 150));
     this->addChild(particleSystem);
+}
 
-    /******************** Particle default ************************************/
+void HelloWorld::createParticleDefault() {
     auto particleEffect = ParticleRain::create();
     this->addChild(particleEffect);
+}
 
+void HelloWorld::createEventListener() {
+    mEventListener = EventListenerTouchOneByOne::create();
+    mEventListener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBeganEvent, this);
+    mEventListener->onTouchMoved = CC_CALLBACK_2(HelloWorld::onTouchMovedEvent, this);
+
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mEventListener, this);
+}
+
+void HelloWorld::setViewPointCenter(Vec2 position) {
+    Size size = Director::getInstance()->getWinSize();
+
+    int x = MAX(position.x, size.width / 2);
+    int y = MAX(position.y, size.height / 2);
+    x = MIN(x, (mTileMap->getMapSize().width * mTileMap->getContentSize().width) - size.width / 2);
+    y = MIN(y, (mTileMap->getMapSize().height * mTileMap->getContentSize().height) - size.height / 2);
+
+    auto actualPosition = Vec2(x, y);
+    auto centerOfView = Vec2(size.width / 2, size.height / 2);
+    auto viewPoint = ccpSub(centerOfView, actualPosition);
+    this->setPosition(viewPoint);
+}
+
+bool HelloWorld::onTouchBeganEvent(Touch *touch, Event *event) {
+    CCLOG("Touch");
     return true;
+}
+
+void HelloWorld::onTouchMovedEvent(Touch *touch, Event *event) {
+    CCLOG("MOVE");
 }
