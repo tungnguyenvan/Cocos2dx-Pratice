@@ -24,7 +24,9 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include <string>
 
+using namespace std;
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -76,6 +78,10 @@ void HelloWorld::createMap() {
     mTileMap->initWithTMXFile("untitled.tmx");
     mBackground = mTileMap->getLayer("Tile Layer 1");
     this->addChild(mTileMap);
+
+    mMeta = mTileMap->getLayer("meta");
+    mMeta->setVisible(false);
+    mForeGround = mTileMap->getLayer("foreground");
 }
 
 void HelloWorld::createSprite() {
@@ -113,6 +119,7 @@ void HelloWorld::createEventListener() {
     mEventListener = EventListenerTouchOneByOne::create();
     mEventListener->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBeganEvent, this);
     mEventListener->onTouchMoved = CC_CALLBACK_2(HelloWorld::onTouchMovedEvent, this);
+    mEventListener->onTouchEnded = CC_CALLBACK_2(HelloWorld::onTouchEndedEvent, this);
 
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mEventListener, this);
 }
@@ -132,10 +139,63 @@ void HelloWorld::setViewPointCenter(Vec2 position) {
 }
 
 bool HelloWorld::onTouchBeganEvent(Touch *touch, Event *event) {
-    CCLOG("Touch");
+
     return true;
 }
 
 void HelloWorld::onTouchMovedEvent(Touch *touch, Event *event) {
     CCLOG("MOVE");
+}
+
+void HelloWorld::onTouchEndedEvent(Touch *touch, Event *event) {
+    auto touchLocation = touch->getLocation();
+    touchLocation = Director::getInstance()->convertToGL(touchLocation);
+    touchLocation = this->convertToNodeSpace(touchLocation);
+
+    auto playerPos = mPlayer->getPosition();
+    auto diff = ccpSub(touchLocation, playerPos);
+
+    if (abs(diff.x) > abs(diff.y)){
+        if (diff.x > 0){
+            playerPos.x += mTileMap->getTileSize().width;
+        }else {
+            playerPos.x -= mTileMap->getTileSize().width;
+        }
+    }else{
+        if (diff.y > 0){
+            playerPos.y -= mTileMap->getTileSize().height;
+        }else {
+            playerPos.y += mTileMap->getTileSize().height;
+        }
+    }
+
+    if (playerPos.x <= (mTileMap->getMapSize().width * mTileMap->getTileSize().width) &&
+    playerPos.y <= (mTileMap->getMapSize().height * mTileMap->getTileSize().height) &&
+    playerPos.x >= 0 && playerPos.y >= 0){
+        this->setPlayerPosition(playerPos);
+    }
+
+    this->setPlayerPosition(mPlayer->getPosition());
+    this->setViewPointCenter(mPlayer->getPosition());
+}
+
+void HelloWorld::setPlayerPosition(Vec2 position) {
+    auto tileCoord = this->tileCoordForPosition(position);
+    int tileGid = mMeta->getTileGIDAt(tileCoord);
+    if(tileGid){
+        auto properties = mTileMap->getPropertiesForGID(tileGid);
+        if(!properties.isNull()){
+            return;
+        }
+    }
+
+    mPlayer->setPosition(position);
+}
+
+Vec2 HelloWorld::tileCoordForPosition(Vec2 position) {
+    int x = position.x / mTileMap->getTileSize().width;
+    int y = ((mTileMap->getMapSize().height * mTileMap->getTileSize().height) - position.y)
+            / mTileMap->getTileSize().height;
+
+    return Vec2(x, y);
 }

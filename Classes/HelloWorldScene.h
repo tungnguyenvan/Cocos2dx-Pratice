@@ -35,6 +35,8 @@ private:
     TMXTiledMap *mTileMap;
     TMXLayer *mBackground;
     Sprite *mPlayer;
+    TMXLayer *mMeta;
+    TMXLayer *mForeGround;
     EventListenerTouchOneByOne *mEventListener;
 public:
     static cocos2d::Scene* createScene();
@@ -53,6 +55,13 @@ public:
      * @return
      */
     bool onTouchBeganEvent(Touch *touch, Event *event);
+
+    /**
+     * Listener ended touch
+     * @param touch
+     * @param event
+     */
+    void onTouchEndedEvent(Touch *touch, Event *event);
 
     /**
      * init view on Scene
@@ -91,6 +100,18 @@ public:
      * set Sprite on spawnPoint
      */
     void setViewPointCenter(Vec2);
+
+    /**
+     * @param vec2
+     */
+    void setPlayerPosition(Vec2);
+
+    /**
+     *
+     * @param vec2
+     * @return
+     */
+    Vec2 tileCoordForPosition(Vec2);
 };
 
 #endif // __HELLOWORLD_SCENE_H__
