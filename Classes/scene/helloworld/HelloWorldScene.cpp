@@ -26,6 +26,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "model/player/PlayerShip.h"
+#include "model/rock/Rock.h"
 
 USING_NS_CC;
 

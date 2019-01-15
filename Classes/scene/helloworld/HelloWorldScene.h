@@ -28,6 +28,7 @@
 #include "cocos2d.h"
 #include "model/background/Background.h"
 #include "model/player/PlayerShip.h"
+#include "model/rock/Rock.h"
 
 using namespace cocos2d;
 
@@ -36,11 +37,11 @@ class HelloWorld : public cocos2d::Scene
 private:
     Background *mBackground;
     PlayerShip *mPlayer;
+    Rock *mRock;
 
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();
-    void onRun(float);
     CREATE_FUNC(HelloWorld);
 };
 
