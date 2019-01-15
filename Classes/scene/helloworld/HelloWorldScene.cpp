@@ -52,7 +52,6 @@ bool HelloWorld::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /************* Create background *******************/
     mBackground = new Background(this);
 
     return true;
