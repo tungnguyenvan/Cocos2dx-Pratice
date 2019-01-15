@@ -26,11 +26,15 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "model/background/Background.h"
 
 using namespace cocos2d;
 
 class HelloWorld : public cocos2d::Scene
 {
+private:
+    Background *mBackground;
+
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();
