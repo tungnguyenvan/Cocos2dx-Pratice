@@ -194,13 +194,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>playerShip.png</string>
+            <string>playerShip/playerShip.png</string>
             <key>size</key>
             <string>{429,231}</string>
             <key>smartupdate</key>
             <string>$TexturePacker:SmartUpdate:a9bd065e88683904b71a0fa1f731e7db:bd10d786746391c7317c98c8f20721ef:00d0c8de2a014774f81dc67f12f611ab$</string>
             <key>textureFileName</key>
-            <string>playerShip.png</string>
+            <string>playerShip/playerShip.png</string>
         </dict>
     </dict>
 </plist>

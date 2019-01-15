@@ -22,8 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+#include "util/Definition.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "model/player/PlayerShip.h"
 
 USING_NS_CC;
 
@@ -53,6 +55,7 @@ bool HelloWorld::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     mBackground = new Background(this);
+    mPlayer = new PlayerShip(this, PLAYER_SHIP_BLUE_1);
 
     return true;
 }
