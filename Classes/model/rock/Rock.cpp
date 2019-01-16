@@ -83,6 +83,7 @@ RepeatForever* Rock::GetAnimation() {
 }
 
 void Rock::OnFallFinish() {
+    mAlive = false;
     this->SetInVisible();
     mSprite->setPosition(Vec2(0, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
     mSprite->stopAction(mAction);

@@ -15,6 +15,7 @@ using namespace CocosDenshion;
 class Bullet : private CoreModel {
 private:
     Sequence *mAction;
+    bool mAlive = false;
     Bullet();
 
 public:
@@ -26,6 +27,7 @@ public:
     void SetInvisible();
     void OnMoveFinish();
     Rect GetBoundingBox();
+    bool GetAlive();
 };
 
 #endif //SPACEGAME_BULLET_H

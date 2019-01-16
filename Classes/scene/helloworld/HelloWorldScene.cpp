@@ -77,7 +77,7 @@ void HelloWorld::CreateRocks() {
 }
 
 void HelloWorld::FallTheRock(float) {
-    if (mRocks.at(mIndexRocks)->GetAlive()) mRocks.at(mIndexRocks)->Fall();
+    if (mRocks.at(mIndexRocks)->GetAlive() == false) mRocks.at(mIndexRocks)->Fall();
     ++mIndexRocks;
 
     if (mIndexRocks >= SIZE_LIST_ROCKS) mIndexRocks = 0;

@@ -89,7 +89,7 @@ void PlayerShip::CreateBullets(Scene *layer) {
 }
 
 void PlayerShip::Shoot() {
-    mBullets.at(mIndexBullet)->RunBullet(mSprite->getPosition());
+    if (!mBullets.at(mIndexBullet)->GetAlive()) mBullets.at(mIndexBullet)->RunBullet(mSprite->getPosition());
     ++mIndexBullet;
 
     if (mIndexBullet >= SIZE_LIST_BULLETS) mIndexBullet = 0;
@@ -108,10 +108,12 @@ bool PlayerShip::CheckCollisionBulletAndRock(Rect rectRock) {
     rectRock.size.height -= REDUCT_SIZE_RECT_ROCK;
 
     for (int i = 0; i < mBullets.size(); i++){
-        Rect rectBullet = mBullets.at(i)->GetBoundingBox();
-        if (rectBullet.intersectsRect(rectRock)) {
-            mBullets[i]->OnMoveFinish();
-            return true;
+        if (mBullets.at(i)->GetAlive()) {
+            Rect rectBullet = mBullets.at(i)->GetBoundingBox();
+            if (rectBullet.intersectsRect(rectRock)) {
+                mBullets[i]->OnMoveFinish();
+                return true;
+            }
         }
     }
     return false;

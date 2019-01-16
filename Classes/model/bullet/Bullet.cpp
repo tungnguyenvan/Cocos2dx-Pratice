@@ -34,6 +34,7 @@ Vec2 Bullet::GetLocation() {
 }
 
 void Bullet::RunBullet(Vec2 location) {
+    mAlive = true;
     mAudio->playEffect(BULLET_SOUND, false);
     mSprite->setPosition(location);
     this->SetVisible();
@@ -56,6 +57,7 @@ void Bullet::SetInvisible() {
 }
 
 void Bullet::OnMoveFinish() {
+    mAlive = false;
     this->SetInvisible();
     mSprite->setPosition(POSITION_DEFAULT_BULLET);
     mSprite->stopAction(mAction);
@@ -63,4 +65,8 @@ void Bullet::OnMoveFinish() {
 
 Rect Bullet::GetBoundingBox() {
     return mSprite->getBoundingBox();
+}
+
+bool Bullet::GetAlive() {
+    return mAlive;
 }
