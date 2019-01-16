@@ -30,8 +30,7 @@ Rock::Rock(Scene *layer) {
 void Rock::Fall() {
     this->SetVisible();
 
-    int x = RandomHelper::random_int((int) (mSprite->getContentSize().width / 2),
-            (int) (mVisibleSize.width - mSprite->getContentSize().width / 2));
+    int x = RandomHelper::random_int(0, (int) mVisibleSize.width);
     mSprite->setPosition(Vec2(x, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
 
     auto fall = MoveTo::create(mSprite->getContentSize().width * mRandomTime,

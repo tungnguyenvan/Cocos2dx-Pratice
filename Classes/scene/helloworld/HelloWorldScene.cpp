@@ -59,11 +59,11 @@ bool HelloWorld::init()
     this->CreateRocks();
     mPlayer = new PlayerShip(this, PLAYER_SHIP_BLUE_1);
 
-    this->schedule(schedule_selector(HelloWorld::FallTheRock), 2);
+    this->schedule(schedule_selector(HelloWorld::FallTheRock), ROCK_FALL_TIME);
     this->scheduleUpdate();
 
     //create label score
-    mLabelScore = Label::createWithTTF(std::to_string(mScore),"font/BoyzRGrossNF.ttf", 100);
+    mLabelScore = Label::createWithTTF(std::to_string(mScore), FONT_PATH, 100);
     mLabelScore->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 0.8));
     this->addChild(mLabelScore);
 
