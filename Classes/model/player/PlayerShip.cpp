@@ -14,6 +14,8 @@
 using namespace cocos2d;
 using namespace std;
 
+Vec2 mOldLocation;
+
 PlayerShip::PlayerShip() {
 
 }
@@ -60,15 +62,17 @@ void PlayerShip::CreateEventForGamePlay(Scene *layer) {
 }
 
 bool PlayerShip::onTouchBegan(Touch *touch, Event *event) {
-    if (mGamePlay->getBoundingBox().containsPoint(
-            mGamePlay->getParent()->convertToNodeSpace(touch->getLocation()))){
-        return true;
-    }
-    return false;
+    mOldLocation = touch->getLocation();
+    return true;
 }
 
 void PlayerShip::onTouchMoved(Touch *touch, Event *event) {
-    mGamePlay->setPosition(touch->getLocation());
+    auto gamePlayLocation = mGamePlay->getPosition();
+    auto newTouch = touch->getLocation();
+    mGamePlay->setPosition(Vec2(gamePlayLocation.x - (mOldLocation.x - newTouch.x),
+            gamePlayLocation.y - (mOldLocation.y - newTouch.y)));
+    mOldLocation = newTouch;
+
 }
 
 void PlayerShip::onTouchEnded(Touch *touch, Event *event) {
