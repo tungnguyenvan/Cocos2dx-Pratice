@@ -72,8 +72,17 @@ bool PlayerShip::onTouchBegan(Touch *touch, Event *event) {
 void PlayerShip::onTouchMoved(Touch *touch, Event *event) {
     auto gamePlayLocation = mSprite->getPosition();
     auto newTouch = touch->getLocation();
-    mSprite->setPosition(Vec2(gamePlayLocation.x - (mOldLocation.x - newTouch.x),
-            gamePlayLocation.y - (mOldLocation.y - newTouch.y)));
+    auto spriteSize = mSprite->getContentSize();
+
+    float spriteLocationX = gamePlayLocation.x - (mOldLocation.x - newTouch.x);
+    float spriteLocationY = gamePlayLocation.y - (mOldLocation.y - newTouch.y);
+
+    if (spriteLocationX >= spriteSize.width / 2 && spriteLocationX <= mVisibleSize.width - spriteSize.width / 2
+        && spriteLocationY >= spriteSize.height / 2 && spriteLocationY <= mVisibleSize.height - spriteSize.height / 2) {
+
+        mSprite->setPosition(Vec2(gamePlayLocation.x - (mOldLocation.x - newTouch.x),
+                                  gamePlayLocation.y - (mOldLocation.y - newTouch.y)));
+    }
     mOldLocation = newTouch;
 
 }

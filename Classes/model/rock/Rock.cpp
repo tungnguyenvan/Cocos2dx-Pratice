@@ -26,6 +26,7 @@ Rock::Rock(Scene *layer) {
     }
 
     mSprite = Sprite::createWithSpriteFrame(mSpriteFrames.front());
+    if (randType == 2) mSprite->setScale(0.5);
     mSprite->setPosition(Vec2(0, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
     mAnimation = this->GetAnimation();
     mSprite->runAction(mAnimation);
