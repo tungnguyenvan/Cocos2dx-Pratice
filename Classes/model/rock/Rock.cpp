@@ -80,3 +80,7 @@ void Rock::OnFallFinish() {
     mRock->setPosition(Vec2(0, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
     mRock->stopAction(mAction);
 }
+
+Rect Rock::GetBoundingBox() {
+    return mRock->getBoundingBox();
+}

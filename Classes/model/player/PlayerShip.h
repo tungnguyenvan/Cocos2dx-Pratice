@@ -70,6 +70,14 @@ public:
      * @param event
      */
     void onTouchEnded(Touch *touch, Event *event);
+
+    /**
+     * function check collision rock and bullet
+     * @param rock
+     * @return true : is collision
+     * @return false : not collision
+     */
+    bool CheckCollisionWidthRock(Rect rectRock);
 };
 
 #endif //SPACEGAME_PLAYERSHIP_H

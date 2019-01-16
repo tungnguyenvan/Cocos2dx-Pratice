@@ -12,7 +12,7 @@ using namespace cocos2d;
 class Bullet {
 private:
     Size mVisibleSize;
-    ParticleSystemQuad *mBullet;
+    Sprite *mBullet;
     Sequence *mAction;
     Bullet();
 
@@ -24,6 +24,7 @@ public:
     void SetVisible();
     void SetInvisible();
     void OnMoveFinish();
+    Rect GetBoundingBox();
 };
 
 #endif //SPACEGAME_BULLET_H

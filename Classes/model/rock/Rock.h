@@ -55,7 +55,12 @@ public:
      */
     void SetInVisible();
 
+    /**
+     * this function will call when action of rock run finish
+     */
     void OnFallFinish();
+
+    Rect GetBoundingBox();
 };
 
 #endif //SPACEGAME_ROCK_H

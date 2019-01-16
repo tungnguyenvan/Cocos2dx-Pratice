@@ -14,8 +14,9 @@ Bullet::Bullet() {
 
 Bullet::Bullet(Scene *layer) {
     mVisibleSize = Director::getInstance()->getVisibleSize();
-    mBullet = ParticleSystemQuad::create("bullet.plist");
-    mBullet->setScale(0.1);
+//    mBullet = ParticleSystemQuad::create("bullet.plist");
+    mBullet = Sprite::create("laserRed01.png");
+//    mBullet->setScale(0.1);
     mBullet->setPosition(POSITION_DEFAULT_BULLET);
 
     this->SetInvisible();
@@ -34,7 +35,7 @@ void Bullet::RunBullet(Vec2 location) {
     mBullet->setPosition(location);
     this->SetVisible();
 
-    auto moveTo = MoveTo::create(BULLET_MOVE_TIME, Vec2(location.x, mVisibleSize.height + mBullet->getContentSize().height));
+    auto moveTo = MoveBy::create(BULLET_MOVE_TIME, Vec2(0, mVisibleSize.height - mBullet->getContentSize().height - 200));
     auto callback = CallFunc::create([=](){
         this->OnMoveFinish();
     });
@@ -55,4 +56,8 @@ void Bullet::OnMoveFinish() {
     this->SetInvisible();
     mBullet->setPosition(POSITION_DEFAULT_BULLET);
     mBullet->stopAction(mAction);
+}
+
+Rect Bullet::GetBoundingBox() {
+    return mBullet->getBoundingBox();
 }

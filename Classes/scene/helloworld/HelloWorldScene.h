@@ -56,6 +56,11 @@ public:
      * Fall the rock on 1s
      */
     void FallTheRock(float);
+
+    /**
+     * function update, loop on runtime
+     */
+    void update(float);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

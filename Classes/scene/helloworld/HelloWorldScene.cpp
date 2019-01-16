@@ -60,6 +60,7 @@ bool HelloWorld::init()
     mPlayer = new PlayerShip(this, PLAYER_SHIP_BLUE_1);
 
     this->schedule(schedule_selector(HelloWorld::FallTheRock), 2);
+    this->scheduleUpdate();
 
     return true;
 }
@@ -75,4 +76,13 @@ void HelloWorld::FallTheRock(float) {
     ++mIndexRocks;
 
     if (mIndexRocks >= SIZE_LIST_ROCKS) mIndexRocks = 0;
+}
+
+void HelloWorld::update(float){
+    for (int i = 0; i < mRocks.size(); ++i) {
+        if (mPlayer->CheckCollisionWidthRock(mRocks.at(i)->GetBoundingBox())){
+            mRocks.at(i)->OnFallFinish();
+            CCLOG("Collision");
+        }
+    }
 }

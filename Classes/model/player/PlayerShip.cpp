@@ -87,3 +87,11 @@ void PlayerShip::Shoot() {
 
     if (mIndexBullet >= SIZE_LIST_BULLETS) mIndexBullet = 0;
 }
+
+bool PlayerShip::CheckCollisionWidthRock(Rect rectRock) {
+    for (int i = 0; i < mBullets.size(); i++){
+        Rect rectBullet = mBullets.at(i)->GetBoundingBox();
+        if (rectBullet.intersectsRect(rectRock)) return true;
+    }
+    return false;
+}
