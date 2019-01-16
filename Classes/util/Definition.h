@@ -39,7 +39,7 @@
 #define SIZE_LIST_BULLETS 30
 #define SHOOT_BULLET_TIME 0.4
 #define POSITION_DEFAULT_BULLET Vec2(-100, -100)
-#define BULLET_SOUND "sound/sfx3.wav"
+#define BULLET_SOUND "sound/sfx1.wav"
 
 #define FONT_PATH "font/BoyzRGrossNF.ttf"
 
