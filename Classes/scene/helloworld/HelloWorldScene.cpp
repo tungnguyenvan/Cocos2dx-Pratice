@@ -56,7 +56,23 @@ bool HelloWorld::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     mBackground = new Background(this);
+    this->CreateRocks();
     mPlayer = new PlayerShip(this, PLAYER_SHIP_BLUE_1);
 
+    this->schedule(schedule_selector(HelloWorld::FallTheRock), 2);
+
     return true;
+}
+
+void HelloWorld::CreateRocks() {
+    for (int i = 0; i < SIZE_LIST_ROCKS; i++){
+        mRocks.push_back(new Rock(this));
+    }
+}
+
+void HelloWorld::FallTheRock(float) {
+    mRocks.at(mIndexRocks)->Fall();
+    ++mIndexRocks;
+
+    if (mIndexRocks >= SIZE_LIST_ROCKS) mIndexRocks = 0;
 }

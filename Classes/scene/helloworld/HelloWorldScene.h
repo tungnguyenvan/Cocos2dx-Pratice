@@ -29,20 +29,33 @@
 #include "model/background/Background.h"
 #include "model/player/PlayerShip.h"
 #include "model/rock/Rock.h"
+#include <vector>
 
 using namespace cocos2d;
+using namespace std;
 
 class HelloWorld : public cocos2d::Scene
 {
 private:
     Background *mBackground;
     PlayerShip *mPlayer;
-    Rock *mRock;
+    vector<Rock*> mRocks;
+    int mIndexRocks = 0;
 
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();
     CREATE_FUNC(HelloWorld);
+
+    /**
+     * Create list rock
+     */
+    void CreateRocks();
+
+    /**
+     * Fall the rock on 1s
+     */
+    void FallTheRock(float);
 };
 
 #endif // __HELLOWORLD_SCENE_H__
