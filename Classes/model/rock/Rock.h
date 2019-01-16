@@ -17,6 +17,7 @@ private:
     Vector<SpriteFrame*> mSpriteFrames;
     RepeatForever *mAnimation;
     Sequence *mAction;
+    float mRandomTime;
 
     Rock();
 

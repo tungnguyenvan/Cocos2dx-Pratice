@@ -24,8 +24,12 @@
 #define PLAYER_MOVE_TIME 0.7
 #define SCALE_PLAYER_SHIP 0.7
 
+#define ROCK_PLIST_FILE_PATH "rock1.plist"
+#define FORMAT_ROCK_NAME "a1(%d).png"
 #define ADD_MORE_HEIGHT_SCREEN 50
-#define ROCK_FALL_TIME 0.1
+#define ROCK_MIN_FALL_TIME 0.05
+#define ROCK_MAX_FALL_TIME 0.2
+#define SIZE_LIST_ROCKS 20
 
 #define BULLET_MOVE_TIME 1.5
 #define SIZE_LIST_BULLETS 20

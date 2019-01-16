@@ -14,12 +14,14 @@ Rock::Rock() {
 
 Rock::Rock(Scene *layer) {
     mVisibleSize = Director::getInstance()->getVisibleSize();
+    mRandomTime = RandomHelper::random_real(ROCK_MIN_FALL_TIME, ROCK_MAX_FALL_TIME);
 
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("rock1.plist");
-    mSpriteFrames = Rock::GetSpriteFrame("a1(%d).png", 15);
-    mAnimation = this->GetAnimation();
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(ROCK_PLIST_FILE_PATH);
+    mSpriteFrames = Rock::GetSpriteFrame(FORMAT_ROCK_NAME, 15);
     mRock = Sprite::createWithSpriteFrame(mSpriteFrames.front());
     mRock->setPosition(Vec2(0, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
+    mAnimation = this->GetAnimation();
+    mRock->runAction(mAnimation);
 
     Rock::SetInVisible();
     layer->addChild(mRock);
@@ -30,9 +32,9 @@ void Rock::Fall() {
 
     int x = RandomHelper::random_int((int) (mRock->getContentSize().width / 2),
             (int) (mVisibleSize.width - mRock->getContentSize().width / 2));
-    mRock->setPosition(Vec2(x, mVisibleSize.height - ADD_MORE_HEIGHT_SCREEN));
+    mRock->setPosition(Vec2(x, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
 
-    auto fall = MoveTo::create(mRock->getContentSize().width * ROCK_FALL_TIME,
+    auto fall = MoveTo::create(mRock->getContentSize().width * mRandomTime,
                                Vec2(x, - mRock->getContentSize().height));
 
     auto callbackFallSuccess = CallFunc::create([=](){
@@ -40,7 +42,6 @@ void Rock::Fall() {
     });
 
     mAction = Sequence::create(fall, callbackFallSuccess, nullptr);
-    mRock->runAction(mAnimation);
     mRock->runAction(mAction);
 }
 
@@ -62,7 +63,6 @@ Vector<SpriteFrame*> Rock::GetSpriteFrame(const char *preFix, int count) {
     char str[100];
     for (int i = 1; i <= count; i++) {
         sprintf(str, preFix, i);
-        CCLOG(str);
         spriteFrames.pushBack(spritecache->getSpriteFrameByName(str));
     }
 
@@ -70,7 +70,7 @@ Vector<SpriteFrame*> Rock::GetSpriteFrame(const char *preFix, int count) {
 }
 
 RepeatForever* Rock::GetAnimation() {
-    auto animation = Animation::createWithSpriteFrames(mSpriteFrames, 0.1);
+    auto animation = Animation::createWithSpriteFrames(mSpriteFrames, mRandomTime * 0.7);
     auto rep = RepeatForever::create(Animate::create(animation));
     return rep;
 }
