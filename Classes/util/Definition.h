@@ -5,6 +5,8 @@
 #ifndef SPACEGAME_DEFINITION_H
 #define SPACEGAME_DEFINITION_H
 
+#define GAME_NAME "Space game"
+
 #define BACKGROUND_PATH_PURPLE "background/purple.png"
 
 #define SHEET_PLAYER_SHIP_IMAGE "playerShip.png"
@@ -36,5 +38,7 @@
 #define SIZE_LIST_BULLETS 30
 #define SHOOT_BULLET_TIME 0.4
 #define POSITION_DEFAULT_BULLET Vec2(-100, -100)
+
+#define FONT_PATH "font/BoyzRGrossNF.ttf"
 
 #endif //SPACEGAME_DEFINITION_H

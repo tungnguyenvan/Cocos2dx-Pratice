@@ -112,7 +112,7 @@ endif()
 set(all_code_files
     ${GAME_HEADER}
     ${GAME_SOURCE}
-        Classes/model/background/Background.h Classes/model/background/Background.cpp Classes/util/Definition.h Classes/model/player/PlayerShip.h Classes/model/player/PlayerShip.cpp Classes/model/rock/Rock.h Classes/model/rock/Rock.cpp Classes/model/bullet/Bullet.h Classes/model/bullet/Bullet.cpp)
+        Classes/model/background/Background.h Classes/model/background/Background.cpp Classes/util/Definition.h Classes/model/player/PlayerShip.h Classes/model/player/PlayerShip.cpp Classes/model/rock/Rock.h Classes/model/rock/Rock.cpp Classes/model/bullet/Bullet.h Classes/model/bullet/Bullet.cpp Classes/scene/endgame/EndGame.h Classes/scene/endgame/EndGame.cpp)
 if(NOT ANDROID)
     add_executable(${APP_NAME} ${all_code_files})
 else()
