@@ -18,43 +18,43 @@ Rock::Rock(Scene *layer) {
 
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(ROCK_PLIST_FILE_PATH);
     mSpriteFrames = Rock::GetSpriteFrame(FORMAT_ROCK_NAME, 15);
-    mRock = Sprite::createWithSpriteFrame(mSpriteFrames.front());
-    mRock->setPosition(Vec2(0, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
+    mSprite = Sprite::createWithSpriteFrame(mSpriteFrames.front());
+    mSprite->setPosition(Vec2(0, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
     mAnimation = this->GetAnimation();
-    mRock->runAction(mAnimation);
+    mSprite->runAction(mAnimation);
 
     Rock::SetInVisible();
-    layer->addChild(mRock);
+    layer->addChild(mSprite);
 }
 
 void Rock::Fall() {
     this->SetVisible();
 
-    int x = RandomHelper::random_int((int) (mRock->getContentSize().width / 2),
-            (int) (mVisibleSize.width - mRock->getContentSize().width / 2));
-    mRock->setPosition(Vec2(x, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
+    int x = RandomHelper::random_int((int) (mSprite->getContentSize().width / 2),
+            (int) (mVisibleSize.width - mSprite->getContentSize().width / 2));
+    mSprite->setPosition(Vec2(x, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
 
-    auto fall = MoveTo::create(mRock->getContentSize().width * mRandomTime,
-                               Vec2(x, - mRock->getContentSize().height));
+    auto fall = MoveTo::create(mSprite->getContentSize().width * mRandomTime,
+                               Vec2(x, - mSprite->getContentSize().height));
 
     auto callbackFallSuccess = CallFunc::create([=](){
        Rock::OnFallFinish();
     });
 
     mAction = Sequence::create(fall, callbackFallSuccess, nullptr);
-    mRock->runAction(mAction);
+    mSprite->runAction(mAction);
 }
 
 Vec2 Rock::GetLocation() {
-    return mRock->getPosition();
+    return mSprite->getPosition();
 }
 
 void Rock::SetVisible() {
-    mRock->setVisible(true);
+    mSprite->setVisible(true);
 }
 
 void Rock::SetInVisible() {
-    mRock->setVisible(false);
+    mSprite->setVisible(false);
 }
 
 Vector<SpriteFrame*> Rock::GetSpriteFrame(const char *preFix, int count) {
@@ -77,10 +77,10 @@ RepeatForever* Rock::GetAnimation() {
 
 void Rock::OnFallFinish() {
     this->SetInVisible();
-    mRock->setPosition(Vec2(0, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
-    mRock->stopAction(mAction);
+    mSprite->setPosition(Vec2(0, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
+    mSprite->stopAction(mAction);
 }
 
 Rect Rock::GetBoundingBox() {
-    return mRock->getBoundingBox();
+    return mSprite->getBoundingBox();
 }

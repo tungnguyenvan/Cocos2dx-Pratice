@@ -24,10 +24,10 @@ PlayerShip::PlayerShip(Scene *layer, string namePath) {
     mVisibleSize = Director::getInstance()->getVisibleSize();
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(SHEET_PLAYER_SHIP_PLIST, SHEET_PLAYER_SHIP_IMAGE);
 
-    mGamePlay = Sprite::createWithSpriteFrameName(namePath);
-    mGamePlay->setPosition(Vec2(mVisibleSize.width * 0.5, -mVisibleSize.height * 0.2));
-    mGamePlay->setScale(SCALE_PLAYER_SHIP);
-    layer->addChild(mGamePlay);
+    mSprite = Sprite::createWithSpriteFrameName(namePath);
+    mSprite->setPosition(Vec2(mVisibleSize.width * 0.5, -mVisibleSize.height * 0.2));
+    mSprite->setScale(SCALE_PLAYER_SHIP);
+    layer->addChild(mSprite);
 
     this->FirstMoveGamePlay(layer);
     this->CreateBullets(layer);
@@ -43,7 +43,7 @@ void PlayerShip::FirstMoveGamePlay(Scene *layer) {
         PlayerShip::CreateEventForGamePlay(layer);
     });
     auto sqe = Sequence::create(moveGamePlay, callback, nullptr);
-    mGamePlay->runAction(sqe);
+    mSprite->runAction(sqe);
 }
 
 void PlayerShip::CreateEventForGamePlay(Scene *layer) {
@@ -58,7 +58,7 @@ void PlayerShip::CreateEventForGamePlay(Scene *layer) {
        this->Shoot();
     });
     auto rp = RepeatForever::create(Sequence::create(DelayTime::create(SHOOT_BULLET_TIME), call, nullptr));
-    mGamePlay->runAction(rp);
+    mSprite->runAction(rp);
 }
 
 bool PlayerShip::onTouchBegan(Touch *touch, Event *event) {
@@ -67,9 +67,9 @@ bool PlayerShip::onTouchBegan(Touch *touch, Event *event) {
 }
 
 void PlayerShip::onTouchMoved(Touch *touch, Event *event) {
-    auto gamePlayLocation = mGamePlay->getPosition();
+    auto gamePlayLocation = mSprite->getPosition();
     auto newTouch = touch->getLocation();
-    mGamePlay->setPosition(Vec2(gamePlayLocation.x - (mOldLocation.x - newTouch.x),
+    mSprite->setPosition(Vec2(gamePlayLocation.x - (mOldLocation.x - newTouch.x),
             gamePlayLocation.y - (mOldLocation.y - newTouch.y)));
     mOldLocation = newTouch;
 
@@ -86,14 +86,14 @@ void PlayerShip::CreateBullets(Scene *layer) {
 }
 
 void PlayerShip::Shoot() {
-    mBullets.at(mIndexBullet)->RunBullet(mGamePlay->getPosition());
+    mBullets.at(mIndexBullet)->RunBullet(mSprite->getPosition());
     ++mIndexBullet;
 
     if (mIndexBullet >= SIZE_LIST_BULLETS) mIndexBullet = 0;
 }
 
 bool PlayerShip::CheckCollisionWidthRock(Rect rectRock) {
-    Rect rectPlayer = mGamePlay->getBoundingBox();
+    Rect rectPlayer = mSprite->getBoundingBox();
     if (rectPlayer.intersectsRect(rectRock))
         return true;
 

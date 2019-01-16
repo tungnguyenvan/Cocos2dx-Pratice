@@ -18,11 +18,11 @@ Bullet::Bullet(Scene *layer) {
     mAudio = SimpleAudioEngine::getInstance();
     mVisibleSize = Director::getInstance()->getVisibleSize();
 
-    mBullet = Sprite::create("laserRed01.png");
-    mBullet->setPosition(POSITION_DEFAULT_BULLET);
+    mSprite = Sprite::create("laserRed01.png");
+    mSprite->setPosition(POSITION_DEFAULT_BULLET);
 
     this->SetInvisible();
-    layer->addChild(mBullet);
+    layer->addChild(mSprite);
 }
 
 Bullet::~Bullet() {
@@ -30,37 +30,37 @@ Bullet::~Bullet() {
 }
 
 Vec2 Bullet::GetLocation() {
-    return  mBullet->getPosition();
+    return  mSprite->getPosition();
 }
 
 void Bullet::RunBullet(Vec2 location) {
     mAudio->playEffect(BULLET_SOUND, false);
-    mBullet->setPosition(location);
+    mSprite->setPosition(location);
     this->SetVisible();
 
-    auto moveTo = MoveBy::create(BULLET_MOVE_TIME, Vec2(0, mVisibleSize.height - mBullet->getContentSize().height - 200));
+    auto moveTo = MoveBy::create(BULLET_MOVE_TIME, Vec2(0, mVisibleSize.height - mSprite->getContentSize().height - 200));
     auto callback = CallFunc::create([=](){
         this->OnMoveFinish();
     });
     mAction = Sequence::create(moveTo, callback, nullptr);
 
-    mBullet->runAction(mAction);
+    mSprite->runAction(mAction);
 }
 
 void Bullet::SetVisible() {
-    mBullet->setVisible(true);
+    mSprite->setVisible(true);
 }
 
 void Bullet::SetInvisible() {
-    mBullet->setVisible(false);
+    mSprite->setVisible(false);
 }
 
 void Bullet::OnMoveFinish() {
     this->SetInvisible();
-    mBullet->setPosition(POSITION_DEFAULT_BULLET);
-    mBullet->stopAction(mAction);
+    mSprite->setPosition(POSITION_DEFAULT_BULLET);
+    mSprite->stopAction(mAction);
 }
 
 Rect Bullet::GetBoundingBox() {
-    return mBullet->getBoundingBox();
+    return mSprite->getBoundingBox();
 }

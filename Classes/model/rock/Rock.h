@@ -6,14 +6,12 @@
 #define SPACEGAME_ROCK_H
 
 #include "cocos2d.h"
+#include "model/core/CoreModel.h"
 
 using namespace cocos2d;
 
-class Rock {
+class Rock : private CoreModel {
 private:
-    Size mVisibleSize;
-    Scene *layer;
-    Sprite *mRock;
     Vector<SpriteFrame*> mSpriteFrames;
     RepeatForever *mAnimation;
     Sequence *mAction;

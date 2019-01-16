@@ -11,15 +11,15 @@
 #include "cocos2d.h"
 #include <string>
 #include <vector>
-
+#include "AudioEngine.h"
+#include "model/core/CoreModel.h"
 
 using namespace cocos2d;
 using namespace std;
+using namespace CocosDenshion;
 
-class PlayerShip {
+class PlayerShip : private CoreModel {
 private:
-    Size mVisibleSize;
-    Sprite *mGamePlay;
     EventListenerTouchOneByOne *mEvent;
     vector<Bullet*> mBullets;
     int mIndexBullet = 0;

@@ -7,16 +7,14 @@
 
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
+#include "model/core/CoreModel.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
 
-class Bullet {
+class Bullet : private CoreModel {
 private:
-    Size mVisibleSize;
-    Sprite *mBullet;
     Sequence *mAction;
-    SimpleAudioEngine *mAudio;
     Bullet();
 
 public:
