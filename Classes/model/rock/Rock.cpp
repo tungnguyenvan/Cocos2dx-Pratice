@@ -16,8 +16,15 @@ Rock::Rock(Scene *layer) {
     mVisibleSize = Director::getInstance()->getVisibleSize();
     mRandomTime = RandomHelper::random_real(ROCK_MIN_FALL_TIME, ROCK_MAX_FALL_TIME);
 
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(ROCK_PLIST_FILE_PATH);
-    mSpriteFrames = Rock::GetSpriteFrame(FORMAT_ROCK_NAME, 15);
+    int randType =  RandomHelper::random_int(1, 2);
+    if (randType == 1) {
+        SpriteFrameCache::getInstance()->addSpriteFramesWithFile(ROCK_1_PLIST_FILE_PATH);
+        mSpriteFrames = Rock::GetSpriteFrame(FORMAT_1_ROCK_NAME, 15);
+    }else {
+        SpriteFrameCache::getInstance()->addSpriteFramesWithFile(ROCK_2_PLIST_FILE_PATH);
+        mSpriteFrames = Rock::GetSpriteFrame(FORMAT_2_ROCK_NAME, 15);
+    }
+
     mSprite = Sprite::createWithSpriteFrame(mSpriteFrames.front());
     mSprite->setPosition(Vec2(0, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
     mAnimation = this->GetAnimation();

@@ -28,8 +28,10 @@
 #define GAMEPLAY_SOUND "sound/sfx8.wav"
 #define GAMEPLAY_SOUND_DIE "sound/sfx5.wav"
 
-#define ROCK_PLIST_FILE_PATH "rock1.plist"
-#define FORMAT_ROCK_NAME "a1(%d).png"
+#define ROCK_1_PLIST_FILE_PATH "rock/rock1/rock1.plist"
+#define ROCK_2_PLIST_FILE_PATH "rock/rock2/rock2.plist"
+#define FORMAT_1_ROCK_NAME "a1(%d).png"
+#define FORMAT_2_ROCK_NAME "a3(%d).png"
 #define ADD_MORE_HEIGHT_SCREEN 50
 #define ROCK_MIN_FALL_TIME 0.05
 #define ROCK_MAX_FALL_TIME 0.2
