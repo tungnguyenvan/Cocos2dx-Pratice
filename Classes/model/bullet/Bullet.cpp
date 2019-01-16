@@ -5,18 +5,20 @@
 #include "util/Definition.h"
 #include "model/bullet/Bullet.h"
 #include "cocos2d.h"
+#include "SimpleAudioEngine.h"
 
 using namespace cocos2d;
+using namespace CocosDenshion;
 
 Bullet::Bullet() {
 
 }
 
 Bullet::Bullet(Scene *layer) {
+    mAudio = SimpleAudioEngine::getInstance();
     mVisibleSize = Director::getInstance()->getVisibleSize();
-//    mBullet = ParticleSystemQuad::create("bullet.plist");
+
     mBullet = Sprite::create("laserRed01.png");
-//    mBullet->setScale(0.1);
     mBullet->setPosition(POSITION_DEFAULT_BULLET);
 
     this->SetInvisible();
@@ -32,6 +34,7 @@ Vec2 Bullet::GetLocation() {
 }
 
 void Bullet::RunBullet(Vec2 location) {
+    mAudio->playEffect(BULLET_SOUND, false);
     mBullet->setPosition(location);
     this->SetVisible();
 

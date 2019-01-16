@@ -25,6 +25,7 @@
 #define PLAYER_SHIP_OGRANGE_3 "playerShip3_orange.png"
 #define PLAYER_MOVE_TIME 0.7
 #define SCALE_PLAYER_SHIP 0.7
+#define GAMEPLAY_SOUND "sfx8.wav"
 
 #define ROCK_PLIST_FILE_PATH "rock1.plist"
 #define FORMAT_ROCK_NAME "a1(%d).png"
@@ -38,6 +39,7 @@
 #define SIZE_LIST_BULLETS 30
 #define SHOOT_BULLET_TIME 0.4
 #define POSITION_DEFAULT_BULLET Vec2(-100, -100)
+#define BULLET_SOUND "sound/sfx3.wav"
 
 #define FONT_PATH "font/BoyzRGrossNF.ttf"
 
