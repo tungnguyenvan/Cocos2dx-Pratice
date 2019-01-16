@@ -13,6 +13,7 @@
 
 using namespace cocos2d;
 using namespace std;
+using namespace CocosDenshion;
 
 Vec2 mOldLocation;
 
@@ -23,6 +24,7 @@ PlayerShip::PlayerShip() {
 PlayerShip::PlayerShip(Scene *layer, string namePath) {
     mVisibleSize = Director::getInstance()->getVisibleSize();
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(SHEET_PLAYER_SHIP_PLIST, SHEET_PLAYER_SHIP_IMAGE);
+    mAudio = SimpleAudioEngine::getInstance();
 
     mSprite = Sprite::createWithSpriteFrameName(namePath);
     mSprite->setPosition(Vec2(mVisibleSize.width * 0.5, -mVisibleSize.height * 0.2));
@@ -31,6 +33,7 @@ PlayerShip::PlayerShip(Scene *layer, string namePath) {
 
     this->FirstMoveGamePlay(layer);
     this->CreateBullets(layer);
+    mAudio->playEffect(GAMEPLAY_SOUND, true);
 }
 
 PlayerShip::~PlayerShip() {
