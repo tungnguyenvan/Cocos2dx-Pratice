@@ -16,6 +16,7 @@ private:
     RepeatForever *mAnimation;
     Sequence *mAction;
     float mRandomTime;
+    bool mAlive = false;
 
     Rock();
 
@@ -59,6 +60,8 @@ public:
     void OnFallFinish();
 
     Rect GetBoundingBox();
+
+    bool GetAlive();
 };
 
 #endif //SPACEGAME_ROCK_H

@@ -35,6 +35,7 @@ Rock::Rock(Scene *layer) {
 }
 
 void Rock::Fall() {
+    mAlive = true;
     this->SetVisible();
 
     int x = RandomHelper::random_int(0, (int) mVisibleSize.width);
@@ -89,4 +90,8 @@ void Rock::OnFallFinish() {
 
 Rect Rock::GetBoundingBox() {
     return mSprite->getBoundingBox();
+}
+
+bool Rock::GetAlive() {
+    return mAlive;
 }

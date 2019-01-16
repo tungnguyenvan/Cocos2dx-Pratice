@@ -77,7 +77,7 @@ void HelloWorld::CreateRocks() {
 }
 
 void HelloWorld::FallTheRock(float) {
-    mRocks.at(mIndexRocks)->Fall();
+    if (mRocks.at(mIndexRocks)->GetAlive()) mRocks.at(mIndexRocks)->Fall();
     ++mIndexRocks;
 
     if (mIndexRocks >= SIZE_LIST_ROCKS) mIndexRocks = 0;
@@ -85,14 +85,16 @@ void HelloWorld::FallTheRock(float) {
 
 void HelloWorld::update(float){
     for (int i = 0; i < mRocks.size(); ++i) {
-        if (mPlayer->CheckCollisionBulletAndRock(mRocks.at(i)->GetBoundingBox())){
-            mRocks.at(i)->OnFallFinish();
-            mScore++;
-            mLabelScore->setString(std::to_string(mScore));
-        }
+        if (mRocks.at(i)->GetAlive()) {
+            if (mPlayer->CheckCollisionBulletAndRock(mRocks.at(i)->GetBoundingBox())) {
+                mRocks.at(i)->OnFallFinish();
+                mScore++;
+                mLabelScore->setString(std::to_string(mScore));
+            }
 
-        if (mPlayer->CheckCollisionWidthRock(mRocks.at(i)->GetBoundingBox())) {
-            CCLOG("Game End");
+            if (mPlayer->CheckCollisionWidthRock(mRocks.at(i)->GetBoundingBox())) {
+                CCLOG("Game End");
+            }
         }
     }
 }
