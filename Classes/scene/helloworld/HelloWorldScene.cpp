@@ -62,6 +62,11 @@ bool HelloWorld::init()
     this->schedule(schedule_selector(HelloWorld::FallTheRock), 2);
     this->scheduleUpdate();
 
+    //create label score
+    mLabelScore = Label::createWithTTF(std::to_string(mScore),"font/BoyzRGrossNF.ttf", 100);
+    mLabelScore->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 0.8));
+    this->addChild(mLabelScore);
+
     return true;
 }
 
@@ -80,9 +85,14 @@ void HelloWorld::FallTheRock(float) {
 
 void HelloWorld::update(float){
     for (int i = 0; i < mRocks.size(); ++i) {
-        if (mPlayer->CheckCollisionWidthRock(mRocks.at(i)->GetBoundingBox())){
+        if (mPlayer->CheckCollisionBulletAndRock(mRocks.at(i)->GetBoundingBox())){
             mRocks.at(i)->OnFallFinish();
-            CCLOG("Collision");
+            mScore++;
+            mLabelScore->setString(std::to_string(mScore));
+        }
+
+        if (mPlayer->CheckCollisionWidthRock(mRocks.at(i)->GetBoundingBox())) {
+            CCLOG("Game End");
         }
     }
 }

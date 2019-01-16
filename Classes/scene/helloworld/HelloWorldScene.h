@@ -40,7 +40,9 @@ private:
     Background *mBackground;
     PlayerShip *mPlayer;
     vector<Rock*> mRocks;
+    Label *mLabelScore;
     int mIndexRocks = 0;
+    int mScore = 0;
 
 public:
     static cocos2d::Scene* createScene();

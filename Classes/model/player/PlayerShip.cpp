@@ -89,9 +89,23 @@ void PlayerShip::Shoot() {
 }
 
 bool PlayerShip::CheckCollisionWidthRock(Rect rectRock) {
+    Rect rectPlayer = mGamePlay->getBoundingBox();
+    if (rectPlayer.intersectsRect(rectRock))
+        return true;
+
+    return false;
+}
+
+bool PlayerShip::CheckCollisionBulletAndRock(Rect rectRock) {
+    rectRock.size.width -= REDUCT_SIZE_RECT_ROCK;
+    rectRock.size.height -= REDUCT_SIZE_RECT_ROCK;
+
     for (int i = 0; i < mBullets.size(); i++){
         Rect rectBullet = mBullets.at(i)->GetBoundingBox();
-        if (rectBullet.intersectsRect(rectRock)) return true;
+        if (rectBullet.intersectsRect(rectRock)) {
+            mBullets[i]->OnMoveFinish();
+            return true;
+        }
     }
     return false;
 }
