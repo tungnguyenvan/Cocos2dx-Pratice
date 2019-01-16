@@ -7,8 +7,11 @@
 #ifndef SPACEGAME_PLAYERSHIP_H
 #define SPACEGAME_PLAYERSHIP_H
 
+#include "model/bullet/Bullet.h"
 #include "cocos2d.h"
 #include <string>
+#include <vector>
+
 
 using namespace cocos2d;
 using namespace std;
@@ -18,8 +21,19 @@ private:
     Size mVisibleSize;
     Sprite *mGamePlay;
     EventListenerTouchOneByOne *mEvent;
-    Scene *layer;
+    vector<Bullet*> mBullets;
+    int mIndexBullet = 0;
     PlayerShip();
+
+    /**
+     * Create list 20 bullet
+     */
+    void CreateBullets(Scene *layer);
+
+    /**
+     *
+     */
+    void Shoot();
 
 public:
     PlayerShip(Scene *layer, string namePath);
@@ -28,12 +42,12 @@ public:
     /**
      * Move game play from bottom screen to location default
      */
-    void FirstMoveGamePlay();
+    void FirstMoveGamePlay(Scene *layer);
 
     /**
      * creat event onTouch onMove onTouchEnd for gameplay
      */
-     void CreateEventForGamePlay();
+     void CreateEventForGamePlay(Scene *layer);
 
     /**
      * Event on Touch began
@@ -56,8 +70,6 @@ public:
      * @param event
      */
     void onTouchEnded(Touch *touch, Event *event);
-
-
 };
 
 #endif //SPACEGAME_PLAYERSHIP_H
