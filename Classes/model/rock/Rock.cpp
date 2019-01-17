@@ -5,6 +5,7 @@
 #include "util/Definition.h"
 #include "model/rock/Rock.h"
 #include "cocos2d.h"
+#include "util/spriteframe/UtilSpriteFrames.h"
 
 using namespace cocos2d;
 
@@ -19,16 +20,16 @@ Rock::Rock(Scene *layer) {
     int randType =  RandomHelper::random_int(1, 2);
     if (randType == 1) {
         SpriteFrameCache::getInstance()->addSpriteFramesWithFile(ROCK_1_PLIST_FILE_PATH);
-        mSpriteFrames = Rock::GetSpriteFrame(FORMAT_1_ROCK_NAME, 15);
+        mSpriteFrames = UtilSpriteFrames::GetSpriteFrame(FORMAT_1_ROCK_NAME, 15);
     }else {
         SpriteFrameCache::getInstance()->addSpriteFramesWithFile(ROCK_2_PLIST_FILE_PATH);
-        mSpriteFrames = Rock::GetSpriteFrame(FORMAT_2_ROCK_NAME, 15);
+        mSpriteFrames = UtilSpriteFrames::GetSpriteFrame(FORMAT_2_ROCK_NAME, 15);
     }
 
+    mAnimation = UtilSpriteFrames::GetAnimationRepeatForever(mSpriteFrames, mRandomTime * 0.7);
     mSprite = Sprite::createWithSpriteFrame(mSpriteFrames.front());
     if (randType == 2) mSprite->setScale(0.5);
     mSprite->setPosition(Vec2(0, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
-    mAnimation = this->GetAnimation();
     mSprite->runAction(mAnimation);
 
     Rock::SetInVisible();
@@ -63,24 +64,6 @@ void Rock::SetVisible() {
 
 void Rock::SetInVisible() {
     mSprite->setVisible(false);
-}
-
-Vector<SpriteFrame*> Rock::GetSpriteFrame(const char *preFix, int count) {
-    auto spritecache = SpriteFrameCache::getInstance();
-    Vector<SpriteFrame*> spriteFrames;
-    char str[100];
-    for (int i = 1; i <= count; i++) {
-        sprintf(str, preFix, i);
-        spriteFrames.pushBack(spritecache->getSpriteFrameByName(str));
-    }
-
-    return spriteFrames;
-}
-
-RepeatForever* Rock::GetAnimation() {
-    auto animation = Animation::createWithSpriteFrames(mSpriteFrames, mRandomTime * 0.7);
-    auto rep = RepeatForever::create(Animate::create(animation));
-    return rep;
 }
 
 void Rock::OnFallFinish() {

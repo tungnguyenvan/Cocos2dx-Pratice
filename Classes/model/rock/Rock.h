@@ -20,16 +20,6 @@ private:
 
     Rock();
 
-    /**
-     * Get list sprite
-     * @param preFix
-     * @param count
-     * @return
-     */
-    Vector<SpriteFrame*> GetSpriteFrame(const char *preFix, int count);
-
-    RepeatForever* GetAnimation();
-
 public:
     Rock(Scene *layer);
     ~Rock();
