@@ -43,6 +43,7 @@ private:
     Label *mLabelScore;
     int mIndexRocks;
     int mScore;
+    int mFrameCount;
 
 public:
     static cocos2d::Scene* createScene();
@@ -57,12 +58,14 @@ public:
     /**
      * Fall the rock on 1s
      */
-    void FallTheRock(float);
+    void FallTheRock();
 
     /**
      * function update, loop on runtime
      */
     void update(float);
+
+    void Collision();
 };
 
 #endif // __HELLOWORLD_SCENE_H__

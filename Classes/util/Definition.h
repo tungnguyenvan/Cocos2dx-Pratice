@@ -6,6 +6,9 @@
 #define SPACEGAME_DEFINITION_H
 
 #define GAME_NAME "Space game"
+#define SCREEN_W 480
+#define SCREEN_H 800
+#define FPS 40
 
 #define BACKGROUND_PATH_PURPLE "background/purple.png"
 
@@ -35,19 +38,26 @@
 #define FORMAT_2_ROCK_NAME "a3(%d).png"
 #define FORMAT_EFFORT_ROCK_NAME "frame_%d_delay-0.07s.png"
 #define ADD_MORE_HEIGHT_SCREEN 50
-#define ROCK_MIN_FALL_TIME 0.05
-#define ROCK_MAX_FALL_TIME 0.2
+#define ROCK_MIN_FALL_TIME 0.03
+#define ROCK_MAX_FALL_TIME 0.07
 #define SIZE_LIST_ROCKS 100
-#define ROCK_FALL_TIME 0.2
 #define REDUCT_SIZE_RECT_ROCK 32.5
+#define ROCK_EFFORT_FRAME_TIME 0.02
+#define ROCK_EFFORT_TOTAL_FRAME 28
 
-#define BULLET_MOVE_TIME 1.5
+#define SHOOT_BULLET_STEP 5
 #define SIZE_LIST_BULLETS 100
-#define SHOOT_BULLET_TIME 0.1
 #define POSITION_DEFAULT_BULLET Vec2(-100, -100)
 #define BULLET_SOUND "sound/sfx1.wav"
 
 #define FONT_PATH "font/BoyzRGrossNF.ttf"
 #define FONT_SIZE_LABLE_NAME_GAME 100
+
+#define Z_ORDER_BACKGROUND 0
+#define Z_ORDER_BULLET 1
+#define Z_ORDER_ROCK 2
+#define Z_ORDER_EFFORT 3
+#define Z_ORDER_PLAYER 4
+#define Z_ORDER_SCORE 5
 
 #endif //SPACEGAME_DEFINITION_H

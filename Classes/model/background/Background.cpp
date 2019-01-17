@@ -17,7 +17,7 @@ Background::Background(Scene *layer) {
 
     Sprite* background = Sprite::create(BACKGROUND_PATH_PURPLE);
     background->setAnchorPoint(Vec2(0, 0));
-    layer->addChild(background);
+    layer->addChild(background, Z_ORDER_BACKGROUND);
 
     Sprite* currentBackground = Sprite::create(BACKGROUND_PATH_PURPLE);
     auto backgroundSize = background->getContentSize();
@@ -39,7 +39,7 @@ Background::Background(Scene *layer) {
 
         currentBackground->setPosition(background->getPosition());
 
-        layer->addChild(background);
+        layer->addChild(background, Z_ORDER_BACKGROUND);
     }
 }
 

@@ -26,60 +26,14 @@ Rock::Rock(Scene *layer) {
         mSpriteFrames = UtilSpriteFrames::GetSpriteFrame(FORMAT_2_ROCK_NAME, 15);
     }
 
-    mAnimation = UtilSpriteFrames::GetAnimationRepeatForever(mSpriteFrames, mRandomTime * 0.7);
+    mAnimation = UtilSpriteFrames::GetAnimationRepeatForever(mSpriteFrames, mRandomTime * 1.2);
     mSprite = Sprite::createWithSpriteFrame(mSpriteFrames.front());
     if (randType == 2) mSprite->setScale(0.5);
     mSprite->setPosition(Vec2(0, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
     mSprite->runAction(mAnimation);
 
-    Rock::SetInVisible();
     this->CreateRockEffort(layer);
-    layer->addChild(mSprite);
-}
-
-void Rock::Fall() {
-    mAlive = true;
-    this->SetVisible();
-
-    int x = RandomHelper::random_int(50, (int) mVisibleSize.width - 50);
-    mSprite->setPosition(Vec2(x, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
-
-    auto fall = MoveTo::create(mSprite->getContentSize().width * mRandomTime,
-                               Vec2(x, - mSprite->getContentSize().height));
-
-    auto callbackFallSuccess = CallFunc::create([=](){
-       Rock::OnFallFinish();
-    });
-
-    mAction = Sequence::create(fall, callbackFallSuccess, nullptr);
-    mSprite->runAction(mAction);
-}
-
-Vec2 Rock::GetLocation() {
-    return mSprite->getPosition();
-}
-
-void Rock::SetVisible() {
-    mSprite->setVisible(true);
-}
-
-void Rock::SetInVisible() {
-    mSprite->setVisible(false);
-}
-
-void Rock::OnFallFinish() {
-    mAlive = false;
-    this->SetInVisible();
-    mSprite->setPosition(Vec2(0, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
-    mSprite->stopAction(mAction);
-}
-
-Rect Rock::GetBoundingBox() {
-    return mSprite->getBoundingBox();
-}
-
-bool Rock::GetAlive() {
-    return mAlive;
+    layer->addChild(mSprite, Z_ORDER_ROCK);
 }
 
 void Rock::OnEffort(Scene *layer) {
@@ -87,25 +41,40 @@ void Rock::OnEffort(Scene *layer) {
         Rock::EffortFinish();
     });
     mSpriteEffort->runAction(Sequence::create(
-                    DelayTime::create(0.02 * 28), callback, nullptr));
+                    DelayTime::create(ROCK_EFFORT_FRAME_TIME * ROCK_EFFORT_TOTAL_FRAME), callback, nullptr));
 
     mSpriteEffort->setPosition(Rock::GetLocation());
     mSpriteEffort->setVisible(true);
-    Rock::OnFallFinish();
 }
 
 void Rock::EffortFinish() {
     mSpriteEffort->setVisible(false);
-//    mSpriteEffort->stopAction(mActionEffort);
 }
 
 void Rock::CreateRockEffort(Scene *layer) {
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(ROCK_EFFORT_PLIST_FILE_PATH);
-    mSpriteFramesEffort = UtilSpriteFrames::GetSpriteFrame(FORMAT_EFFORT_ROCK_NAME, 28);
-    mAnimationEffort = UtilSpriteFrames::GetAnimationRepeatForever(mSpriteFramesEffort, 0.02);
+    mSpriteFramesEffort = UtilSpriteFrames::GetSpriteFrame(FORMAT_EFFORT_ROCK_NAME, ROCK_EFFORT_TOTAL_FRAME);
+    mAnimationEffort = UtilSpriteFrames::GetAnimationRepeatForever(mSpriteFramesEffort, ROCK_EFFORT_FRAME_TIME);
     mSpriteEffort = Sprite::createWithSpriteFrame(mSpriteFramesEffort.front());
 
     mSpriteEffort->runAction(mAnimationEffort);
     mSpriteEffort->setVisible(false);
-    layer->addChild(mSpriteEffort);
+    layer->addChild(mSpriteEffort, Z_ORDER_EFFORT);
+}
+
+void Rock::Init() {
+    SetAlive(false);
+}
+
+void Rock::Update() {
+    if (IsAlive()){
+        mSprite->setPosition(Vec2(GetLocation().x, GetLocation().y - 3));
+        if (GetLocation().y <= -mSprite->getContentSize().height){
+            SetAlive(false);
+        }
+    }else {
+        int x = RandomHelper::random_int((int)(mSprite->getContentSize().width / 1.5), (int) (mVisibleSize.width -
+        mSprite->getContentSize().width / 2));
+        mSprite->setPosition(Vec2(x, mVisibleSize.height + ADD_MORE_HEIGHT_SCREEN));
+    }
 }

@@ -21,15 +21,15 @@ PlayerShip::PlayerShip() {
 
 }
 
-PlayerShip::PlayerShip(Scene *layer, string namePath) {
-    mVisibleSize = Director::getInstance()->getVisibleSize();
+PlayerShip::PlayerShip(Scene *layer, string namePath) : CoreModel(){
+    mIndexBullet = 0;
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile(SHEET_PLAYER_SHIP_PLIST, SHEET_PLAYER_SHIP_IMAGE);
     mAudio = SimpleAudioEngine::getInstance();
 
     mSprite = Sprite::createWithSpriteFrameName(namePath);
     mSprite->setPosition(Vec2(mVisibleSize.width * 0.5, -mVisibleSize.height * 0.2));
     mSprite->setScale(SCALE_PLAYER_SHIP);
-    layer->addChild(mSprite);
+    layer->addChild(mSprite, Z_ORDER_PLAYER);
 
     this->FirstMoveGamePlay(layer);
     this->CreateBullets(layer);
@@ -56,12 +56,6 @@ void PlayerShip::CreateEventForGamePlay(Scene *layer) {
     mEvent->onTouchMoved = CC_CALLBACK_2(PlayerShip::onTouchMoved, this);
     mEvent->onTouchEnded = CC_CALLBACK_2(PlayerShip::onTouchEnded, this);
     layer->getEventDispatcher()->addEventListenerWithSceneGraphPriority(mEvent, layer);
-
-    auto call = CallFunc::create([=](){
-       this->Shoot();
-    });
-    auto rp = RepeatForever::create(Sequence::create(DelayTime::create(SHOOT_BULLET_TIME), call, nullptr));
-    mSprite->runAction(rp);
 }
 
 bool PlayerShip::onTouchBegan(Touch *touch, Event *event) {
@@ -77,8 +71,8 @@ void PlayerShip::onTouchMoved(Touch *touch, Event *event) {
     float spriteLocationX = gamePlayLocation.x - (mOldLocation.x - newTouch.x);
     float spriteLocationY = gamePlayLocation.y - (mOldLocation.y - newTouch.y);
 
-    if (spriteLocationX >= spriteSize.width / 2 && spriteLocationX <= mVisibleSize.width - spriteSize.width / 2
-        && spriteLocationY >= spriteSize.height / 2 && spriteLocationY <= mVisibleSize.height - spriteSize.height / 2) {
+    if (spriteLocationX >= spriteSize.width / 4 && spriteLocationX <= mVisibleSize.width - spriteSize.width / 4
+        && spriteLocationY >= spriteSize.height / 3 && spriteLocationY <= mVisibleSize.height - spriteSize.height / 3) {
 
         mSprite->setPosition(Vec2(gamePlayLocation.x - (mOldLocation.x - newTouch.x),
                                   gamePlayLocation.y - (mOldLocation.y - newTouch.y)));
@@ -93,19 +87,31 @@ void PlayerShip::onTouchEnded(Touch *touch, Event *event) {
 
 void PlayerShip::CreateBullets(Scene *layer) {
     for (int i = 0; i < SIZE_LIST_BULLETS; i++) {
-        mBullets.push_back(new Bullet(layer));
+        Bullet *b = new Bullet(layer);
+        b->Init();
+        mBullets.push_back(b);
     }
 }
 
 void PlayerShip::Shoot() {
-    if (!mBullets.at(mIndexBullet)->GetAlive()) mBullets.at(mIndexBullet)->RunBullet(mSprite->getPosition());
+    if (!mBullets.at(mIndexBullet)->IsAlive())
+    {
+        mBullets.at(mIndexBullet)->SetAlive(true);
+    }
     ++mIndexBullet;
 
     if (mIndexBullet >= SIZE_LIST_BULLETS) mIndexBullet = 0;
 }
 
 bool PlayerShip::CheckCollisionWidthRock(Rect rectRock) {
-    Rect rectPlayer = mSprite->getBoundingBox();
+    Rect rectPlayer = this->GetBoundingBox();
+
+    rectPlayer.size.width -= 45;
+    rectPlayer.size.height -= 45;
+
+    rectRock.size.width -= REDUCT_SIZE_RECT_ROCK;
+    rectRock.size.height -= REDUCT_SIZE_RECT_ROCK;
+
     if (rectPlayer.intersectsRect(rectRock))
         return true;
 
@@ -117,13 +123,30 @@ bool PlayerShip::CheckCollisionBulletAndRock(Rect rectRock) {
     rectRock.size.height -= REDUCT_SIZE_RECT_ROCK;
 
     for (int i = 0; i < mBullets.size(); i++){
-        if (mBullets.at(i)->GetAlive()) {
+        if (mBullets.at(i)->IsAlive()) {
             Rect rectBullet = mBullets.at(i)->GetBoundingBox();
             if (rectBullet.intersectsRect(rectRock)) {
-                mBullets[i]->OnMoveFinish();
+                //mBullets.at(i)->SetAlive(false);
                 return true;
             }
         }
     }
     return false;
+}
+
+void PlayerShip::Init(){
+    mIndexBullet = 0;
+    mFrameShootBullet = 0;
+}
+
+void PlayerShip::Update() {
+    for (int i = 0; i < mBullets.size(); i++){
+        mBullets.at(i)->UpdateLocationPlayer(mSprite->getPosition());
+        mBullets.at(i)->Update();
+    }
+
+    mFrameShootBullet++;
+    if (mFrameShootBullet % 4 == 0){
+        Shoot();
+    }
 }

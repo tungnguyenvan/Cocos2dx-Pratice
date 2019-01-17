@@ -60,16 +60,17 @@ bool HelloWorld::init()
     mScore = 0;
 
     mBackground = new Background(this);
-    this->CreateRocks();
-    mPlayer = new PlayerShip(this, PLAYER_SHIP_BLUE_1);
 
-    this->schedule(schedule_selector(HelloWorld::FallTheRock), ROCK_FALL_TIME);
+    CreateRocks();
+
+    mPlayer = new PlayerShip(this, PLAYER_SHIP_BLUE_1);
+    mPlayer->Init();
+
     this->scheduleUpdate();
 
-    //create label score
-    mLabelScore = Label::createWithTTF(std::to_string(mScore), FONT_PATH, 100);
+    mLabelScore = Label::createWithTTF(std::to_string(mScore), FONT_PATH, FONT_SIZE_LABLE_NAME_GAME);
     mLabelScore->setPosition(Vec2(visibleSize.width / 2, visibleSize.height * 0.8));
-    this->addChild(mLabelScore);
+    this->addChild(mLabelScore, Z_ORDER_SCORE);
 
     return true;
 }
@@ -80,18 +81,32 @@ void HelloWorld::CreateRocks() {
     }
 }
 
-void HelloWorld::FallTheRock(float) {
-    if (mRocks.at(mIndexRocks)->GetAlive() == false) mRocks.at(mIndexRocks)->Fall();
+void HelloWorld::FallTheRock() {
+    if (mRocks.at(mIndexRocks)->IsAlive() == false){
+        mRocks.at(mIndexRocks)->SetAlive(true);
+    }
     ++mIndexRocks;
-
     if (mIndexRocks >= SIZE_LIST_ROCKS) mIndexRocks = 0;
 }
 
 void HelloWorld::update(float){
+    for (int i = 0; i < mRocks.size(); i++){
+        mRocks.at(i)->Update();
+    }
+    Collision();
+
+    mFrameCount++;
+    if (mFrameCount % 6 == 0){
+        FallTheRock();
+    }
+    mPlayer->Update();
+}
+
+void HelloWorld::Collision() {
     for (int i = 0; i < mRocks.size(); ++i) {
-        if (mRocks.at(i)->GetAlive()) {
-            //check collision bullet and rock
+        if (mRocks.at(i)->IsAlive()) {
             if (mPlayer->CheckCollisionBulletAndRock(mRocks.at(i)->GetBoundingBox())) {
+                mRocks.at(i)->SetAlive(false);
                 mRocks.at(i)->OnEffort(this);
                 mScore++;
                 mLabelScore->setString(std::to_string(mScore));

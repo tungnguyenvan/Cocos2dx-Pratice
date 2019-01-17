@@ -12,10 +12,9 @@
 using namespace cocos2d;
 using namespace CocosDenshion;
 
-class Bullet : private CoreModel {
+class Bullet : public CoreModel {
 private:
     Sequence *mAction;
-    bool mAlive = false;
     Bullet();
 
 public:
@@ -24,42 +23,16 @@ public:
     ~Bullet();
 
     /**
-     * get location sprite on screen
-     * @return Vec2
+     * Player send location to bullet
      */
-    Vec2 GetLocation();
+    void UpdateLocationPlayer(Vec2);
 
     /**
-     * On action bullet run from player to top screen
+     * initialize value
      */
-    void RunBullet(Vec2);
+    virtual void Init();
 
-    /**
-     * Set visible of bullet
-     */
-    void SetVisible();
-
-    /**
-     * Set invisible of bullet
-     */
-    void SetInvisible();
-
-    /**
-     * function implement when bullet run to top screen
-     */
-    void OnMoveFinish();
-
-    /**
-     * Get BoundingBox of bullet do check collision
-     * @return
-     */
-    Rect GetBoundingBox();
-
-    /**
-     * Get status alive of bullet
-     * @return
-     */
-    bool GetAlive();
+    virtual void Update();
 };
 
 #endif //SPACEGAME_BULLET_H

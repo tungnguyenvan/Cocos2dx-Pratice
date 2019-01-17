@@ -10,56 +10,20 @@
 
 using namespace cocos2d;
 
-class Rock : private CoreModel {
+class Rock : public CoreModel {
 private:
     Sprite *mSpriteEffort;
     Vector<SpriteFrame*> mSpriteFrames;
     Vector<SpriteFrame*> mSpriteFramesEffort;
     RepeatForever *mAnimation;
     RepeatForever *mAnimationEffort;
-    Sequence *mAction;
-    Sequence *mActionEffort;
     float mRandomTime;
-    bool mAlive = false;
 
     Rock();
 
 public:
     Rock(Scene *layer);
     ~Rock();
-
-    /**
-     * @return Vec2 : location of Rock
-     */
-    Vec2 GetLocation();
-
-    /**
-     * Call Rock fall
-     */
-    void Fall();
-
-    /**
-     * Set rock visible when Rock in top
-     */
-    void SetVisible();
-
-    /**
-     * Set rock inVisible when Rock in bottom
-     */
-    void SetInVisible();
-
-    /**
-     * this function will call when action of rock run finish
-     */
-    void OnFallFinish();
-
-    Rect GetBoundingBox();
-
-    /**
-     * Get status alive of die
-     * @return bool
-     */
-    bool GetAlive();
 
     void EffortFinish();
 
@@ -73,6 +37,9 @@ public:
      * @param layer
      */
     void CreateRockEffort(Scene *layer);
+
+    virtual void Init();
+    virtual void Update();
 };
 
 #endif //SPACEGAME_ROCK_H

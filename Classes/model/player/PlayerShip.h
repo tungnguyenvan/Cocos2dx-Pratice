@@ -18,11 +18,12 @@ using namespace cocos2d;
 using namespace std;
 using namespace CocosDenshion;
 
-class PlayerShip : private CoreModel {
+class PlayerShip : public CoreModel {
 private:
     EventListenerTouchOneByOne *mEvent;
     vector<Bullet*> mBullets;
-    int mIndexBullet = 0;
+    int mIndexBullet;
+    int mFrameShootBullet;
     PlayerShip();
 
     /**
@@ -31,7 +32,7 @@ private:
     void CreateBullets(Scene *layer);
 
     /**
-     *
+     * Shoot one bullet on frame
      */
     void Shoot();
 
@@ -86,6 +87,9 @@ public:
      * @return false : not collision
      */
     bool CheckCollisionBulletAndRock(Rect rectRock);
+
+    virtual void Init();
+    virtual void Update();
 };
 
 #endif //SPACEGAME_PLAYERSHIP_H
