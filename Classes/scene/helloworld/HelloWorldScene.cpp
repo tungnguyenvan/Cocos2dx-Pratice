@@ -53,8 +53,11 @@ bool HelloWorld::init()
         return false;
     }
 
+    //init variable
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    mIndexRocks = 0;
+    mScore = 0;
 
     mBackground = new Background(this);
     this->CreateRocks();
@@ -89,7 +92,7 @@ void HelloWorld::update(float){
         if (mRocks.at(i)->GetAlive()) {
             //check collision bullet and rock
             if (mPlayer->CheckCollisionBulletAndRock(mRocks.at(i)->GetBoundingBox())) {
-                mRocks.at(i)->OnFallFinish();
+                mRocks.at(i)->OnEffort(this);
                 mScore++;
                 mLabelScore->setString(std::to_string(mScore));
             }

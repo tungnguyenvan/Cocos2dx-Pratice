@@ -33,6 +33,7 @@ Rock::Rock(Scene *layer) {
     mSprite->runAction(mAnimation);
 
     Rock::SetInVisible();
+    this->CreateRockEffort(layer);
     layer->addChild(mSprite);
 }
 
@@ -79,4 +80,32 @@ Rect Rock::GetBoundingBox() {
 
 bool Rock::GetAlive() {
     return mAlive;
+}
+
+void Rock::OnEffort(Scene *layer) {
+    auto callback = CallFunc::create([=](){
+        Rock::EffortFinish();
+    });
+    mSpriteEffort->runAction(Sequence::create(
+                    DelayTime::create(0.02 * 28), callback, nullptr));
+
+    mSpriteEffort->setPosition(Rock::GetLocation());
+    mSpriteEffort->setVisible(true);
+    Rock::OnFallFinish();
+}
+
+void Rock::EffortFinish() {
+    mSpriteEffort->setVisible(false);
+//    mSpriteEffort->stopAction(mActionEffort);
+}
+
+void Rock::CreateRockEffort(Scene *layer) {
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(ROCK_EFFORT_PLIST_FILE_PATH);
+    mSpriteFramesEffort = UtilSpriteFrames::GetSpriteFrame(FORMAT_EFFORT_ROCK_NAME, 28);
+    mAnimationEffort = UtilSpriteFrames::GetAnimationRepeatForever(mSpriteFramesEffort, 0.02);
+    mSpriteEffort = Sprite::createWithSpriteFrame(mSpriteFramesEffort.front());
+
+    mSpriteEffort->runAction(mAnimationEffort);
+    mSpriteEffort->setVisible(false);
+    layer->addChild(mSpriteEffort);
 }

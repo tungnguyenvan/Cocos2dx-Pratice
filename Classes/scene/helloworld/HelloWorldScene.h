@@ -41,8 +41,8 @@ private:
     PlayerShip *mPlayer;
     vector<Rock*> mRocks;
     Label *mLabelScore;
-    int mIndexRocks = 0;
-    int mScore = 0;
+    int mIndexRocks;
+    int mScore;
 
 public:
     static cocos2d::Scene* createScene();
