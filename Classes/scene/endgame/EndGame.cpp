@@ -21,7 +21,7 @@ bool EndGame::init() {
     mBackground = new Background(this);
 
     //Create label name game
-    mLbNameGame = Label::createWithTTF(GAME_NAME, FONT_PATH, 100);
+    mLbNameGame = Label::createWithTTF(GAME_NAME, FONT_PATH, FONT_SIZE_LABLE_NAME_GAME);
     mLbNameGame->setPosition(Vec2(mVisibleSize.width * 0.5, mVisibleSize.height * 0.8));
     this->addChild(mLbNameGame);
 

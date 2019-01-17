@@ -46,5 +46,6 @@
 #define BULLET_SOUND "sound/sfx1.wav"
 
 #define FONT_PATH "font/BoyzRGrossNF.ttf"
+#define FONT_SIZE_LABLE_NAME_GAME 100
 
 #endif //SPACEGAME_DEFINITION_H

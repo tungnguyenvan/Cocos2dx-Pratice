@@ -27,6 +27,7 @@
 #include "SimpleAudioEngine.h"
 #include "model/player/PlayerShip.h"
 #include "model/rock/Rock.h"
+#include "scene/endgame/EndGame.h"
 
 USING_NS_CC;
 
@@ -86,14 +87,17 @@ void HelloWorld::FallTheRock(float) {
 void HelloWorld::update(float){
     for (int i = 0; i < mRocks.size(); ++i) {
         if (mRocks.at(i)->GetAlive()) {
+            //check collision bullet and rock
             if (mPlayer->CheckCollisionBulletAndRock(mRocks.at(i)->GetBoundingBox())) {
                 mRocks.at(i)->OnFallFinish();
                 mScore++;
                 mLabelScore->setString(std::to_string(mScore));
             }
 
+            //check collision player and rock
             if (mPlayer->CheckCollisionWidthRock(mRocks.at(i)->GetBoundingBox())) {
-                CCLOG("Game End");
+                auto endScene = EndGame::createScene(mScore);
+                Director::getInstance()->replaceScene(endScene);
             }
         }
     }

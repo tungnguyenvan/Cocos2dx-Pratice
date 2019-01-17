@@ -20,13 +20,45 @@ private:
 
 public:
     Bullet(Scene *layer);
+
     ~Bullet();
+
+    /**
+     * get location sprite on screen
+     * @return Vec2
+     */
     Vec2 GetLocation();
+
+    /**
+     * On action bullet run from player to top screen
+     */
     void RunBullet(Vec2);
+
+    /**
+     * Set visible of bullet
+     */
     void SetVisible();
+
+    /**
+     * Set invisible of bullet
+     */
     void SetInvisible();
+
+    /**
+     * function implement when bullet run to top screen
+     */
     void OnMoveFinish();
+
+    /**
+     * Get BoundingBox of bullet do check collision
+     * @return
+     */
     Rect GetBoundingBox();
+
+    /**
+     * Get status alive of bullet
+     * @return
+     */
     bool GetAlive();
 };
 

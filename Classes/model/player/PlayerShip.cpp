@@ -83,8 +83,8 @@ void PlayerShip::onTouchMoved(Touch *touch, Event *event) {
         mSprite->setPosition(Vec2(gamePlayLocation.x - (mOldLocation.x - newTouch.x),
                                   gamePlayLocation.y - (mOldLocation.y - newTouch.y)));
     }
-    mOldLocation = newTouch;
 
+    mOldLocation = newTouch;
 }
 
 void PlayerShip::onTouchEnded(Touch *touch, Event *event) {
